@@ -1,0 +1,29 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./template-server
+      dockerfile: Dockerfile
+      args:
+        - PORT=8000
+        - NODE_ENV=development
+        - ACCESS_TOKEN=acYWXHKqn$VT6MswEbH6z@R@JpjP3U
+        - REFRESH_TOKEN=b8qCnKKJKbPREeWU5wHktMzMYByccE5A
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+
+  client:
+    build:
+      context: ./template-ui
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_BACKEND_URL=http://localhost:8000
+    ports:
+      - "3000:3000"
+
+  database:
+    image: mysql:latest
+    ports:
+      - "3306:3306"

@@ -4,9 +4,11 @@ const salt = bcrypt.genSaltSync(10);
 
 const userCheckEmail = async (email) => {
   try {
-    const data = await db.User.findOne({ where: { email: email } });
-    if (data) {
-      return data;
+    if (email) {
+      const data = await db.Users.findOne({ where: { email: email } });
+      if (data) {
+        return data;
+      }
     }
   } catch (error) {
     console.log(error);
@@ -84,9 +86,15 @@ const userfindOneUser = (userId, relationship = true) => {
   });
 };
 
+// Tạo một mã OTP ngẫu nhiên
+// const generateOTP = () => {
+//   return Math.floor(100000 + Math.random() * 900000).toString();
+// };
+
 module.exports = {
   userCheckEmail,
   useHasPassword,
   useDecodePassword,
   userfindOneUser,
+  // generateOTP
 };

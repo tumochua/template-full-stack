@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ import ProtectedRouter from './components/ProtectedRouter';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import { useContextStore, userAction } from '@/context';
-// import { apiGetProfileUser } from '@/services/apis';
+import { getAllUSer } from '@/services/apis';
 
 function App() {
     // eslint-disable-next-line no-unused-vars
@@ -28,6 +28,14 @@ function App() {
     //     })();
     //     // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, []);
+
+    useEffect(() => {
+        (async () => {
+            const resp = await getAllUSer()
+            console.log(resp);
+        })()
+        // console.log('test');
+    }, [])
 
     return (
         <Router>

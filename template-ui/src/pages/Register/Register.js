@@ -13,7 +13,7 @@ import * as yup from "yup";
 // import { connect } from 'react-redux';
 
 ///scss
-import style from './Login.module.scss';
+import style from './Register.module.scss';
 
 ///config router
 import config from '@/config';
@@ -21,13 +21,20 @@ import config from '@/config';
 /// redux
 // import { createUser } from '@/store/actions/userActions';
 
-function Login() {
+function Register() {
     // const [stateAccessToken, setAccessToken] = useState(null);
     // const [stateRefreshToken, setRefreshToken] = useState(null);
     // const navigate = useNavigate();
     const schema = yup.object().shape({
         email: yup.string().email().required(),
-        password: yup.string().min(4).max(20).required(),
+        password: yup
+            .string()
+            .required("Please enter a password")
+            .min(6, "Passwords must be at least 6 characters"),
+        confirmPassword: yup
+            .string()
+            .oneOf([yup.ref("password"), null], "Confirmation password does not match") // so sánh với trường password
+            .required("Please confirm your password"),
 
     });
     const {
@@ -66,9 +73,9 @@ function Login() {
             <div className={style.loginWapper}>
                 <div className={style.bodyWapper}>
                     <div className={style.headeWapper}>
-                        <h1>Login An Account</h1>
+                        <h1>Register An Account</h1>
                         <p>
-                            Login an account to enjoy all the services <br /> without any ads for free!
+                            Register an account to enjoy all the services <br /> without any ads for free!
                         </p>
                     </div>
 
@@ -88,33 +95,31 @@ function Login() {
                             />
                             <p className={style.errorMessage}>{errors.password?.message}</p>
                         </div>
-                        <input type="submit" value="Login" className={style.submitBtn} />
-                        <div className='flex justify-center mt-5 text-blue-500'>
-                            <Link to={config.routes.forgetPassword}>
-                                Forget Password
+                        <div className={style.formGroup}>
+                            <span>Confirm Password</span><br />
+                            <input
+                                type="password"
+                                placeholder="Confirm Password..."
+                                {...register("confirmPassword")}
+                                className={style.inputLogin}
+                            />
+                            <p className={style.errorMessage}>{errors.confirmPassword?.message}</p>
+                        </div>
+
+                        <div className='flex justify-center mb-5 text-blue-500'>
+                            <Link to={config.routes.verifyToken}>
+                                Verify Token
                             </Link>
                         </div>
+
+                        <input type="submit" value="Register" className={style.submitBtn} />
+
                     </form>
-                    <div className='flex items-center mt-16'>
-                        <div className='h-1 w-full bg-gray-300 flex-1'></div>
-                        <span className='text-gray-400 px-4 uppercase'>Orther</span>
-                        <div className='h-1 w-full bg-gray-300 flex-1'></div>
-                    </div>
-                    <div className='flex justify-evenly'>
-                        <button className={style.auth}>
-                            <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png' />
-                            <span>Facebook</span>
-                        </button>
-                        <button className={style.auth}>
-                            <img src='https://i.pinimg.com/originals/74/65/f3/7465f30319191e2729668875e7a557f2.png' />
-                            <span>Google</span>
-                        </button>
-                    </div>
                     <div className={style.footerWapper}>
                         <p>
-                            Already Have An Account?{' '}
-                            <Link to={config.routes.register} className={style.navLink}>
-                                Register
+                            Login Have An Account?{' '}
+                            <Link to={config.routes.login} className={style.navLink}>
+                                Login
                             </Link>
                         </p>
                     </div>
@@ -128,4 +133,4 @@ function Login() {
 // });
 // export default connect(mapStateToProps, { createUser })(Login);
 
-export default Login
+export default Register

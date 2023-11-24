@@ -1,0 +1,109 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <style>
+    .container {
+      width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    form {
+      max-width: 300px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 10px 0;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    function validateForm() {
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+
+      // Your validation logic
+      var isValid = true;
+      if (!isValidEmail(email)) {
+        document.getElementById('emailError').innerText = 'Please enter a valid email address.';
+        isValid = false;
+      } else {
+        document.getElementById('emailError').innerText = '';
+      }
+
+      if (password.length < 6) {
+        document.getElementById('passwordError').innerText = 'Password must be at least 6 characters.';
+        isValid = false;
+      } else {
+        document.getElementById('passwordError').innerText = '';
+      }
+
+
+      return isValid;
+    }
+
+    function isValidEmail(email) {
+      // Simple email validation, you might want to use a more robust solution
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Login</h1>
+    <% if (typeof data !=='undefined' ) { %>
+      <% if(data.statusCode===4){ %>
+        <div class="errorMessage">
+          <%= data.message %>
+        </div>
+        <% } %>
+          <% } %>
+            <form action="/login-server" method="post" onsubmit="return validateForm()">
+              <label for="email">Email:</label>
+              <input type="text" id="email" name="email">
+              <p id="emailError" style="color: red;"></p>
+
+              <label for="password">Password:</label>
+              <input type="password" id="password" name="password">
+              <p id="passwordError" style="color: red;"></p>
+              <div>
+                <a href="/send-otp">Forget Password</a>
+                <!-- <a href="/forget-password">Forget Password</a> -->
+
+              </div><br />
+              <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="/register-server">Register</a></p>
+  </div>
+</body>
+
+</html>

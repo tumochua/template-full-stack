@@ -4,11 +4,17 @@ import Home from '@/pages/Home/index';
 import DefaultLayout from '@/layouts/DefaultLayout';
 import NotFound from '@/pages/NotFound';
 import Login from '@/pages/Login/index';
+import Register from '@/pages/Register/index'
+import VerifyToken from '@/pages/VerifyToken';
+import ForgetPassword from '@/pages/ForgetPassword';
 
 import Admin from '@/pages/Admin';
 const publicRoutes = [
     { path: config.routes.home, component: Home, layout: DefaultLayout },
     { path: config.routes.login, component: Login, layout: DefaultLayout },
+    { path: config.routes.register, component: Register, layout: DefaultLayout },
+    { path: config.routes.verifyToken, component: VerifyToken, layout: DefaultLayout },
+    { path: config.routes.forgetPassword, component: ForgetPassword, layout: DefaultLayout },
     { path: config.routes.notFound, component: NotFound, layout: null },
 ];
 

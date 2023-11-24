@@ -1,0 +1,159 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 1200px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .form-group {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 20%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        span#error {
+            color: red;
+            font-size: 14px;
+        }
+
+        #emailError {
+            color: red;
+            font-size: 14px;
+        }
+
+        .btn-otp {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .restotpemail {
+            width: 10% !important;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .errorMessage {
+            text-align: center;
+            color: red;
+            padding: 10px;
+        }
+    </style>
+    <script>
+        function checkOtp() {
+            var enteredOtp = document.getElementById('otpInput').value;
+            var errorSpan = document.getElementById('error');
+            if (!enteredOtp) {
+                errorSpan.innerText = 'Incorrect OTP';
+                return false; // Ngăn chặn form từ việc submit
+            } else {
+                errorSpan.innerText = '';
+            }
+
+        }
+
+        function checkRestOtp(event) {
+
+            var restotpemailOtp = document.getElementById('restOtpInput').value;
+            var emailErrorSpan = document.getElementById('emailError');
+            // console.log(restotpemailOtp);
+            // Kiểm tra ô input của Email
+            if (!isValidEmail(restotpemailOtp)) {
+                emailErrorSpan.innerText = 'Please enter a valid email address.';
+            } else {
+                emailErrorSpan.innerText = '';
+            }
+
+            // Nếu có lỗi, không thực hiện submit form
+            if (!isValidEmail(restotpemailOtp)) {
+                return false;
+            }
+
+            // Nếu dữ liệu hợp lệ, bạn có thể tiếp tục với xử lý form hoặc chuyển hướng
+            // Ví dụ: document.forms[0].submit(); hoặc window.location.href = "/new-page";
+        }
+
+        function isValidEmail(email) {
+            // Simple email validation, you might want to use a more robust solution
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Verify Otp</h1>
+        <% if (typeof message !=='undefined' ) { %>
+            <div class="errorMessage">
+                <%= message %>
+            </div>
+            <% } %>
+
+
+                <div class="form-group">
+                    <form onsubmit="return checkOtp()" method="post" action="/verify-otp-email-server">
+                        <label for="otpInput">Enter Otp Email</label><br />
+                        <input type="number" id="otpInput" name="otpemail" />
+                        <button type="submit" onclick="checkOtp()">Verify OTP</button><br />
+                        <span id="error"></span>
+
+                    </form>
+                </div>
+                <div class="form-group">
+                    <form onsubmit="return checkRestOtp(event)" action="/rest-otp-email-server" method="post">
+                        <label for="otpInput">Enter Email</label><br />
+                        <input type="text" id="restOtpInput" name="restotpemail" />
+                        <input type="submit" value="Rest OTP" class="restotpemail" /><br />
+                        <span id="emailError"></span>
+                    </form>
+                </div>
+
+                <p>Don't have an account? <a href="/register-server">Register</a></p>
+    </div>
+</body>
+
+</html>

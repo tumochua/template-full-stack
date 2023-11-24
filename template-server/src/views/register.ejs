@@ -1,0 +1,159 @@
+<!-- /views/register.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Register</title>
+
+<head>
+
+    <script>
+
+
+        function validateForm() {
+            var email = document.getElementById('email').value;
+            var firstname = document.getElementById('firstname').value;
+            var lastname = document.getElementById('lastname').value;
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Your validation logic
+            var isValid = true;
+
+            if (!isValidEmail(email)) {
+                document.getElementById('emailError').innerText = 'Please enter a valid email address.';
+                isValid = false;
+            } else {
+                document.getElementById('emailError').innerText = '';
+            }
+
+            if (lastname.length < 5) {
+                document.getElementById('lastnameError').innerText = 'lastname must be at least 5 characters.';
+                isValid = false;
+            } else {
+                document.getElementById('lastnameError').innerText = '';
+            }
+            if (firstname.length < 5) {
+                document.getElementById('firstnameError').innerText = 'firstname must be at least 5 characters.';
+                isValid = false;
+            } else {
+                document.getElementById('firstnameError').innerText = '';
+            }
+
+            if (password.length < 1) {
+                document.getElementById('passwordError').innerText = 'Password must be at least 6 characters.';
+                isValid = false;
+            } else {
+                document.getElementById('passwordError').innerText = '';
+            }
+
+            // if (confirmPassword.length === 0) {
+            //     document.getElementById('confirmPasswordError').innerText = 'Please confirm your password.';
+            //     isValid = false;
+            // } else if (password !== confirmPassword) {
+            //     document.getElementById('confirmPasswordError').innerText = 'Password confirmation does not match.';
+            //     isValid = false;
+            // } else {
+            //     document.getElementById('confirmPasswordError').innerText = '';
+            // }
+
+            if (isValid) {
+
+                // Hiển thị thông điệp thành công và liên kết đến trang đăng nhập
+                document.getElementById('successMessage').innerText = 'Registration successful!';
+            }
+
+
+            return isValid;
+        }
+
+        function isValidEmail(email) {
+            // Simple email validation, you might want to use a more robust solution
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+    </script>
+    <style>
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>Register</h1>
+        <div id="emailMessage" style="color: red;"></div>
+        <div id="successMessage" style="color: green;"></div>
+        <!-- ... (mã khác) -->
+        <form id="registerForm" action="/register-server" method="post" onsubmit="return validateForm()">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email">
+            <p id="emailError" style="color: red;"></p>
+
+            <label for="lastname">First Name:</label>
+            <input type="text" id="firstname" name="firstname">
+            <p id="firstnameError" style="color: red;"></p>
+
+            <label for="lastname">Last Name:</label>
+            <input type="text" id="lastname" name="lastname">
+            <p id="lastnameError" style="color: red;"></p>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <p id="passwordError" style="color: red;"></p>
+
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword">
+            <p id="confirmPasswordError" style="color: red;"></p>
+
+
+            <button type="submit">Register</button>
+        </form>
+        <div>
+            <p>Already have an account? <a href="/login-server">Login</a></p>
+        </div>
+    </div>
+</body>
+
+</html>
